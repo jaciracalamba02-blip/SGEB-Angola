@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operador - SGEB</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon"><i class="fas fa-landmark"></i></div>
+                    <div class="logo-text">
+                        <h1>SGEB - OPERADOR</h1>
+                        <p>Sistema de Gestão de Empréstimos Bancários</p>
+                    </div>
+                </div>
+                <nav class="nav-menu" id="menuNav"></nav>
+            </div>
+        </div>
+    </header>
+
+    <aside class="sidebar">
+        <div class="user-info">
+            <div class="user-avatar"><i class="fas fa-user-circle"></i></div>
+            <div class="user-details">
+                <h4 id="nomeUsuario">Operador</h4>
+                <p id="nivelUsuario">Operador</p>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="sidebar-item"><a href="operador.html" class="sidebar-link active"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+            <li class="sidebar-item"><a href="clientes.html" class="sidebar-link"><i class="fas fa-users"></i><span>Clientes</span></a></li>
+            <li class="sidebar-item"><a href="emprestimos.html" class="sidebar-link"><i class="fas fa-hand-holding-usd"></i><span>Empréstimos</span></a></li>
+            <li class="sidebar-item"><a href="pagamentos.html" class="sidebar-link"><i class="fas fa-credit-card"></i><span>Pagamentos</span></a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-fluid">
+            <div class="alert alert-info">
+                <i class="fas fa-user"></i> 
+                <span>Bem-vindo, <strong id="welcomeNome">Operador</strong>! Você tem acesso básico ao sistema.</span>
+            </div>
+
+            <div class="stats-grid" id="statsCards"></div>
+
+            <!-- Ações Rápidas -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-bolt"></i> Ações Rápidas</h2>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex gap-10" style="flex-wrap: wrap;">
+                        <a href="clientes.html" class="btn btn-primary"><i class="fas fa-user-plus"></i> Novo Cliente</a>
+                        <a href="emprestimos.html" class="btn btn-secondary"><i class="fas fa-hand-holding-usd"></i> Solicitar Empréstimo</a>
+                        <a href="pagamentos.html" class="btn btn-info"><i class="fas fa-credit-card"></i> Registrar Pagamento</a>
+                        <button class="btn btn-outline" onclick="window.location.href='clientes.html'"><i class="fas fa-search"></i> Consultar Cliente</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Últimos Clientes -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-user-plus"></i> Últimos Clientes Cadastrados</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead><tr><th>ID</th><th>Nome</th><th>NIF</th><th>Telefone</th><th>Data</th><th>Ações</th></tr></thead>
+                            <tbody id="ultimosClientes"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Próximas Parcelas -->
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(135deg, #f57c00, #ff9800);">
+                    <h2><i class="fas fa-bell"></i> Próximas Parcelas (7 dias)</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead><tr><th>Cliente</th><th>Empréstimo</th><th>Parcela</th><th>Valor</th><th>Vencimento</th><th>Ações</th></tr></thead>
+                            <tbody id="proximasParcelas"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Sistema de Gestão de Empréstimos Bancários | 2025/2026</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        let clientes = [];
+        let emprestimos = [];
+        let parcelas = [];
+
+        function carregarDados() {
+            clientes = JSON.parse(localStorage.getItem('clientes') || '[]');
+            emprestimos = JSON.parse(localStorage.getItem('emprestimos') || '[]');
+            parcelas = JSON.parse(localStorage.getItem('parcelas') || '[]');
+            
+            atualizarStats();
+            carregarUltimosClientes();
+            carregarProximasParcelas();
+        }
+
+        function atualizarStats() {
+            const totalClientes = clientes.length;
+            const meusEmprestimos = emprestimos.length;
+            const totalPendente = parcelas.filter(p => p.status === 'pendente').reduce((sum, p) => sum + p.valor, 0);
+            
+            document.getElementById('statsCards').innerHTML = `
+                <div class="stat-card"><div class="stat-info"><h3>Total Clientes</h3><div class="stat-number">${totalClientes}</div></div><div class="stat-icon"><i class="fas fa-users"></i></div></div>
+                <div class="stat-card"><div class="stat-info"><h3>Empréstimos</h3><div class="stat-number">${meusEmprestimos}</div></div><div class="stat-icon"><i class="fas fa-hand-holding-usd"></i></div></div>
+                <div class="stat-card"><div class="stat-info"><h3>Total Pendente</h3><div class="stat-number">KZ ${totalPendente.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div></div><div class="stat-icon"><i class="fas fa-clock"></i></div></div>
+            `;
+        }
+
+        function carregarUltimosClientes() {
+            const ultimos = [...clientes].reverse().slice(0, 5);
+            const tbody = document.getElementById('ultimosClientes');
+            tbody.innerHTML = ultimos.map(c => `
+                <tr>
+                    <td>${c.id}</td>
+                    <td><strong>${c.nome}</strong></td>
+                    <td>${c.cpf}</td>
+                    <td>${c.telefone || '-'}</td>
+                    <td>${c.data_cadastro || new Date().toLocaleDateString('pt-BR')}</td>
+                    <td><a href="clientes.html" class="btn-icon"><i class="fas fa-eye"></i></a></td>
+                </tr>
+            `).join('');
+        }
+
+        function carregarProximasParcelas() {
+            const hoje = new Date();
+            const semana = new Date();
+            semana.setDate(hoje.getDate() + 7);
+            
+            const proximas = parcelas.filter(p => {
+                const vencimento = new Date(p.vencimento);
+                return p.status === 'pendente' && vencimento >= hoje && vencimento <= semana;
+            });
+            
+            const tbody = document.getElementById('proximasParcelas');
+            tbody.innerHTML = proximas.map(p => {
+                const emp = emprestimos.find(e => e.id === p.id_emprestimo);
+                const cliente = emp ? clientes.find(c => c.id === emp.id_cliente) : null;
+                return `
+                    <tr>
+                        <td>${cliente ? cliente.nome : 'N/A'}</td>
+                        <td>#${p.id_emprestimo}</td>
+                        <td>${p.numero}ª</td>
+                        <td>KZ ${p.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                        <td>${new Date(p.vencimento).toLocaleDateString('pt-BR')}</td>
+                        <td><a href="pagamentos.html" class="btn btn-sm btn-primary">Pagar</a></td>
+                    </tr>
+                `;
+            }).join('');
+            
+            if(proximas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center">Nenhuma parcela próxima do vencimento</td></tr>';
+            }
+        }
+
+        function verificarAcesso() {
+            const usuario = JSON.parse(localStorage.getItem('usuario_logado'));
+            if(!usuario) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            document.getElementById('nomeUsuario').innerText = usuario.nome;
+            document.getElementById('welcomeNome').innerText = usuario.nome;
+            carregarMenu(usuario.nivel);
+            return true;
+        }
+
+        if(verificarAcesso()) {
+            carregarDados();
+        }
+    </script>
+</body>
+</html>

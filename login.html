@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGEB Angola · Área Administrativa | Login</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0f1a 0%, #060b14 100%);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* Container principal */
+    .login-container {
+      max-width: 580px;
+      width: 100%;
+      background: rgba(10, 20, 35, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 32px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.1);
+      overflow: hidden;
+    }
+
+    /* Cabeçalho expandido - SGEB no canto esquerdo */
+    .login-header {
+      background: linear-gradient(135deg, #0a1628, #050d1a);
+      padding: 20px 32px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .logo-area {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-area h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff, #e4c87b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-area .subtitle {
+      font-size: 0.65rem;
+      color: #e4c87b;
+      letter-spacing: 1.5px;
+      margin-top: 2px;
+    }
+
+    .logo-area .description {
+      font-size: 0.7rem;
+      color: #9aaec9;
+      margin-top: 6px;
+      max-width: 250px;
+    }
+
+    .header-badge {
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 40px;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-badge i {
+      color: #e4c87b;
+      font-size: 0.8rem;
+    }
+
+    .header-badge span {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #e4c87b;
+    }
+
+    /* Navegação */
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      padding: 8px 18px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #b8c7e7;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .nav-tab i {
+      font-size: 0.8rem;
+    }
+
+    .nav-tab:hover {
+      background: rgba(212, 175, 55, 0.15);
+      color: #e4c87b;
+    }
+
+    .nav-tab.active {
+      background: rgba(212, 175, 55, 0.25);
+      color: #e4c87b;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+
+    /* Corpo do formulário */
+    .login-body {
+      padding: 36px 32px 40px;
+      background: linear-gradient(145deg, rgba(8, 18, 32, 0.9), rgba(5, 12, 22, 0.95));
+    }
+
+    .admin-title {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .admin-title h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .admin-title span {
+      font-size: 0.8rem;
+      color: #c4b06a;
+    }
+
+    .badge-admin {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(212, 175, 55, 0.12);
+      padding: 6px 14px;
+      border-radius: 60px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #e4c87b;
+      margin-bottom: 16px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    /* Campos */
+    .input-group {
+      margin-bottom: 24px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      color: #d4c68a;
+    }
+
+    .input-group label i {
+      margin-right: 6px;
+      width: 20px;
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 24px;
+      padding: 14px 18px;
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      color: #f0f6ff;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .input-field:focus {
+      border-color: #e4c87b;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .input-field::placeholder {
+      color: rgba(200, 180, 120, 0.4);
+    }
+
+    /* Opções */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0 28px;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      color: #c4b06a;
+    }
+
+    .checkbox input {
+      accent-color: #d4aa2b;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .forgot {
+      color: #e4c87b;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .forgot:hover {
+      text-decoration: underline;
+      color: #f0d88a;
+    }
+
+    /* Botão */
+    .btn-login {
+      width: 100%;
+      background: linear-gradient(105deg, #1a2a4a, #0f1a30);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 44px;
+      padding: 14px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #e4c87b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 24px;
+    }
+
+    .btn-login:hover {
+      background: linear-gradient(105deg, #1f3258, #121f38);
+      border-color: rgba(212, 175, 55, 0.8);
+      color: #f0dc90;
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+    }
+
+    /* Link cadastro */
+    .register-link {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #9eaaad;
+      padding-top: 16px;
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+    }
+
+    .register-link a {
+      color: #e4c87b;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+
+    .register-link a:hover {
+      color: #f0d88a;
+    }
+
+    /* Rodapé */
+    .footer {
+      padding: 16px;
+      text-align: center;
+      font-size: 0.65rem;
+      color: #8a7a4a;
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    /* Toast mensagem */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f1a2f;
+      backdrop-filter: blur(12px);
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #e4c87b;
+      border-left: 4px solid #e4c87b;
+      z-index: 1000;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    /* Loading spinner */
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(228, 200, 123, 0.3);
+      border-radius: 50%;
+      border-top-color: #e4c87b;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 550px) {
+      .login-body {
+        padding: 28px 24px;
+      }
+      .toast {
+        white-space: normal;
+        text-align: center;
+        max-width: 90%;
+      }
+      .nav-tabs {
+        flex-wrap: wrap;
+      }
+      .login-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .logo-area .description {
+        max-width: 100%;
+      }
+      .header-badge {
+        align-self: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-container" id="loginContainer">
+  <!-- Cabeçalho expandido - SGEB no canto esquerdo com mais informações -->
+  <div class="login-header">
+    <div class="logo-area">
+      <h1>SGEB Angola</h1>
+      <div class="subtitle">SISTEMA DE GESTÃO DE EMPRÉSTIMOS BANCÁRIOS</div>
+      <div class="description">
+        <i class="fas fa-building-columns"></i> Plataforma oficial de crédito 
+      </div>
+    </div>
+    <div class="header-badge">
+      <i class="fas fa-shield-alt"></i>
+      <span>Portal Seguro · v3.0</span>
+      <i class="fas fa-lock"></i>
+    </div>
+  </div>
+
+  <!-- Navegação Início | Área do Cliente | Área Admin | Cadastrar -->
+  <div class="nav-tabs">
+    <a href="#" class="nav-tab" id="navInicio"><i class="fas fa-home"></i> Início</a>
+    <a href="#" class="nav-tab" id="navCliente"><i class="fas fa-user-circle"></i> Área do Cliente</a>
+    <a href="#" class="nav-tab active" id="navAdmin"><i class="fas fa-shield-alt"></i> Área Admin</a>
+    <a href="#" class="nav-tab" id="navCadastrar"><i class="fas fa-user-plus"></i> Cadastrar</a>
+  </div>
+
+  <!-- Corpo do Login -->
+  <div class="login-body">
+    <div class="admin-title">
+      <div class="badge-admin"><i class="fas fa-lock"></i> ACESSO RESTRITO · ADMIN</div>
+      <h2>Área Administrativa</h2>
+      <span>Faça login para acessar o sistema de gestão de empréstimos bancários</span>
+    </div>
+
+    <form id="loginForm">
+      <div class="input-group">
+        <label><i class="fas fa-user"></i> Usuário</label>
+        <input type="text" class="input-field" id="username" placeholder="Digite seu usuário" autocomplete="username">
+      </div>
+
+      <div class="input-group">
+        <label><i class="fas fa-key"></i> Senha</label>
+        <input type="password" class="input-field" id="password" placeholder="Digite sua senha" autocomplete="current-password">
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox">
+          <input type="checkbox" id="keepLogged"> <span>Manter sessão ativa</span>
+        </label>
+        <a href="#" id="forgotPassword" class="forgot"><i class="fas fa-question-circle"></i> Esqueci a senha</a>
+      </div>
+
+      <button type="submit" class="btn-login" id="loginBtn">
+        <i class="fas fa-arrow-right-to-bracket"></i> Acessar Sistema
+      </button>
+
+      <div class="register-link">
+        <i class="fas fa-id-card"></i> Não tem acesso? <a href="#" id="requestAccess">Solicitar credenciais administrativas</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="footer">
+    <i class="fas fa-shield-alt"></i> Ambiente seguro · SGEB Angola © 2026 · Conformidade com normas BNA
+  </div>
+</div>
+
+<div id="toastMessage" class="toast" style="display: none;"></div>
+
+<script>
+  (function() {
+    // ==================== LINKS E REDIRECIONAMENTOS ====================
+    // URLs das páginas (altere conforme sua estrutura de pastas)
+    const LINKS = {
+      HOME: 'index.html',
+      CLIENTE_AREA: 'dashboard-cliente.html',
+      ADMIN_AREA: 'admin.html',
+      CADASTRO: 'cadastro.html',
+      RECUPERAR_SENHA: 'recuperar-senha.html',
+      SOLICITAR_CREDENCIAIS: 'solicitar-credenciais.html',
+      DASHBOARD: 'admin.html'
+    };
+
+    // Credenciais válidas para demonstração
+    const validUsers = [
+      { user: 'admin', pass: 'SGEB@2026', role: 'Administrador Master' },
+      { user: 'gestor', pass: 'angola123', role: 'Gestor de Crédito' },
+      { user: 'supervisor', pass: 'credito2026', role: 'Supervisor de Compliance' }
+    ];
+
+    // Verificar se já existe sessão ativa
+    const savedSession = localStorage.getItem('sgeb_admin_logged') || sessionStorage.getItem('sgeb_admin_logged');
+    if (savedSession) {
+      try {
+        const userData = JSON.parse(savedSession);
+        // Redirecionar para o dashboard
+        window.location.href = LINKS.DASHBOARD;
+        return;
+      } catch(e) {}
+    }
+
+    // Elementos
+    const form = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const keepCheck = document.getElementById('keepLogged');
+    const forgotBtn = document.getElementById('forgotPassword');
+    const requestBtn = document.getElementById('requestAccess');
+    const loginBtn = document.getElementById('loginBtn');
+    const toast = document.getElementById('toastMessage');
+
+    // Navegação
+    const navInicio = document.getElementById('navInicio');
+    const navCliente = document.getElementById('navCliente');
+    const navAdmin = document.getElementById('navAdmin');
+    const navCadastrar = document.getElementById('navCadastrar');
+    const allNav = [navInicio, navCliente, navAdmin, navCadastrar];
+
+    // Função para mostrar mensagem
+    function showMessage(msg, isError = false) {
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      toast.style.background = isError ? '#4a1a2ccc' : '#0f1a2fcc';
+      toast.style.borderLeftColor = isError ? '#e4c87b' : '#e4c87b';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2800);
+    }
+
+    // Set active nav
+    function setActive(active) {
+      allNav.forEach(nav => {
+        if (nav) nav.classList.remove('active');
+      });
+      if (active) active.classList.add('active');
+    }
+
+    // ==================== FUNÇÕES DE NAVEGAÇÃO COM LINKS ====================
+    function navigateTo(url, message) {
+      if (message) {
+        showMessage(message);
+        setTimeout(() => {
+          window.location.href = url;
+        }, 500);
+      } else {
+        window.location.href = url;
+      }
+    }
+
+    // Eventos de navegação com os links
+    if (navInicio) {
+      navInicio.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActive(navInicio);
+        navigateTo(LINKS.HOME, '🏦 Redirecionando para a página inicial...');
+      });
+    }
+    if (navCliente) {
+      navCliente.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActive(navCliente);
+        navigateTo(LINKS.CLIENTE_AREA, '👤 Redirecionando para Área do Cliente...');
+      });
+    }
+    if (navAdmin) {
+      navAdmin.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActive(navAdmin);
+        // Se já estiver na página de admin, apenas mostra mensagem
+        showMessage('🛡️ Você está na Área Administrativa');
+      });
+    }
+    if (navCadastrar) {
+      navCadastrar.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActive(navCadastrar);
+        navigateTo(LINKS.CADASTRO, '📝 Redirecionando para página de cadastro...');
+      });
+    }
+
+    // ==================== FUNÇÃO PARA REDIRECIONAR PARA O DASHBOARD ====================
+    function redirectToDashboard(userData) {
+      // Salvar dados da sessão
+      const sessionData = {
+        user: userData.user,
+        role: userData.role,
+        loginTime: new Date().toISOString()
+      };
+      
+      if (keepCheck.checked) {
+        localStorage.setItem('sgeb_admin_logged', JSON.stringify(sessionData));
+      } else {
+        sessionStorage.setItem('sgeb_admin_logged', JSON.stringify(sessionData));
+      }
+      
+      // Redirecionar para o dashboard
+      window.location.href = LINKS.DASHBOARD;
+    }
+
+    // ==================== LOGIN HANDLER ====================
+    function handleLogin(e) {
+      e.preventDefault();
+
+      const user = usernameInput.value.trim();
+      const pass = passwordInput.value.trim();
+
+      if (user === '') {
+        showMessage('❌ Por favor, digite o usuário', true);
+        usernameInput.focus();
+        return;
+      }
+
+      if (pass === '') {
+        showMessage('❌ Por favor, digite a senha', true);
+        passwordInput.focus();
+        return;
+      }
+
+      // Mostrar loading no botão
+      const originalBtnText = loginBtn.innerHTML;
+      loginBtn.innerHTML = '<span class="loading"></span> Validando...';
+      loginBtn.disabled = true;
+
+      setTimeout(() => {
+        const found = validUsers.find(u => u.user === user && u.pass === pass);
+
+        if (found) {
+          showMessage(`✅ Login realizado! Redirecionando para o dashboard...`);
+          setTimeout(() => {
+            redirectToDashboard(found);
+          }, 500);
+        } else {
+          loginBtn.innerHTML = originalBtnText;
+          loginBtn.disabled = false;
+          showMessage('⚠️ Usuário ou senha incorretos. Use: admin/SGEB@2026, gestor/angola123 ou supervisor/credito2026', true);
+          passwordInput.value = '';
+          passwordInput.focus();
+          usernameInput.style.borderColor = '#e4c87b';
+          passwordInput.style.borderColor = '#e4c87b';
+          setTimeout(() => {
+            usernameInput.style.borderColor = '';
+            passwordInput.style.borderColor = '';
+          }, 1500);
+        }
+      }, 800);
+    }
+
+    // ==================== FUNÇÕES DOS LINKS DO FORMULÁRIO ====================
+    function handleForgot(e) {
+      e.preventDefault();
+      showMessage('📧 Redirecionando para recuperação de senha...');
+      setTimeout(() => {
+        window.location.href = LINKS.RECUPERAR_SENHA;
+      }, 500);
+    }
+
+    function handleRequest(e) {
+      e.preventDefault();
+      showMessage('📋 Redirecionando para solicitação de credenciais...');
+      setTimeout(() => {
+        window.location.href = LINKS.SOLICITAR_CREDENCIAIS;
+      }, 500);
+    }
+
+    // Event listeners
+    form.addEventListener('submit', handleLogin);
+    forgotBtn.addEventListener('click', handleForgot);
+    requestBtn.addEventListener('click', handleRequest);
+
+    // Efeito nos inputs
+    const inputs = document.querySelectorAll('.input-field');
+    inputs.forEach(inp => {
+      inp.addEventListener('focus', () => {
+        inp.style.transform = 'scale(1.01)';
+      });
+      inp.addEventListener('blur', () => {
+        inp.style.transform = 'scale(1)';
+      });
+    });
+
+    // ==================== INFORMAÇÃO DOS LINKS NO CONSOLE ====================
+    console.log('🔗 LINKS DO SISTEMA SGEB ANGOLA:');
+    console.log('📌 Página de Login: index.html ou login.html');
+    console.log('📌 Dashboard Admin: admin.html');
+    console.log('📌 Área do Cliente: cliente-dashboard.html');
+    console.log('📌 Cadastro: cadastro.html');
+    console.log('📌 Recuperar Senha: recuperar-senha.html');
+    console.log('📌 Solicitar Credenciais: solicitar-credenciais.html');
+    console.log('🔐 Credenciais de teste: admin/SGEB@2026, gestor/angola123, supervisor/credito2026');
+  })();
+</script>
+</body>
+</html>

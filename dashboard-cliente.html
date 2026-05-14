@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGEB Angola · Dashboard do Cliente</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0f1a 0%, #060b14 100%);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Container principal */
+    .dashboard-container {
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      background: rgba(10, 20, 35, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 32px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.1);
+      overflow: hidden;
+    }
+
+    /* Cabeçalho */
+    .dashboard-header {
+      background: linear-gradient(135deg, #0a1628, #050d1a);
+      padding: 20px 32px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .logo-area {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-area h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff, #e4c87b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-area .subtitle {
+      font-size: 0.65rem;
+      color: #e4c87b;
+      letter-spacing: 1.5px;
+      margin-top: 2px;
+    }
+
+    .user-area {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(212, 175, 55, 0.1);
+      padding: 6px 20px 6px 16px;
+      border-radius: 50px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      background: rgba(212, 175, 55, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-avatar i {
+      font-size: 1.3rem;
+      color: #e4c87b;
+    }
+
+    .user-info {
+      text-align: right;
+    }
+
+    .user-info .user-name {
+      font-weight: 700;
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .user-info .user-email {
+      font-size: 0.7rem;
+      color: #c4b06a;
+    }
+
+    .logout-btn {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 6px 16px;
+      border-radius: 40px;
+      color: #e4c87b;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .logout-btn:hover {
+      background: rgba(212, 175, 55, 0.3);
+    }
+
+    /* Navegação */
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      padding: 8px 18px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #b8c7e7;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+    }
+
+    .nav-tab:hover {
+      background: rgba(212, 175, 55, 0.15);
+      color: #e4c87b;
+    }
+
+    .nav-tab.active {
+      background: rgba(212, 175, 55, 0.25);
+      color: #e4c87b;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+
+    /* Conteúdo principal */
+    .dashboard-content {
+      padding: 32px;
+      min-height: 500px;
+    }
+
+    /* Seção de boas-vindas */
+    .welcome-card {
+      background: linear-gradient(145deg, rgba(8, 18, 32, 0.8), rgba(5, 12, 22, 0.9));
+      border-radius: 24px;
+      padding: 28px;
+      margin-bottom: 32px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .welcome-text h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .welcome-text h2 i {
+      color: #e4c87b;
+      margin-right: 10px;
+    }
+
+    .welcome-text p {
+      color: #9aaec9;
+      font-size: 0.9rem;
+    }
+
+    .welcome-stats {
+      display: flex;
+      gap: 24px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #e4c87b;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: #9aaec9;
+    }
+
+    /* Grid de cartões */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: rgba(8, 18, 32, 0.8);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 24px;
+      padding: 24px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      border-color: rgba(212, 175, 55, 0.5);
+      transform: translateY(-3px);
+      background: rgba(10, 22, 40, 0.9);
+    }
+
+    .card-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(212, 175, 55, 0.12);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .card-icon i {
+      font-size: 1.8rem;
+      color: #e4c87b;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 0.85rem;
+      color: #9aaec9;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .card-btn {
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 40px;
+      padding: 8px 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #e4c87b;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .card-btn:hover {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: rgba(212, 175, 55, 0.7);
+    }
+
+    /* Seções de conteúdo */
+    .section-card {
+      background: rgba(8, 18, 32, 0.8);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .section-title h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .section-title h3 i {
+      color: #e4c87b;
+      margin-right: 10px;
+    }
+
+    /* Tabela */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px 8px;
+      color: #e4c87b;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    td {
+      padding: 14px 8px;
+      color: #c5d6ff;
+      font-size: 0.85rem;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .status-aprovado {
+      background: rgba(74, 222, 128, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+
+    .status-pendente {
+      background: rgba(251, 191, 36, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .status-analise {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    /* Perfil */
+    .profile-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .profile-field {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 16px;
+      border-radius: 16px;
+    }
+
+    .profile-field label {
+      font-size: 0.7rem;
+      color: #e4c87b;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .profile-field .value {
+      font-size: 1rem;
+      color: white;
+      font-weight: 500;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: linear-gradient(145deg, #0a1628, #050d1a);
+      border-radius: 24px;
+      padding: 32px;
+      max-width: 500px;
+      width: 90%;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-header h3 {
+      color: white;
+      font-size: 1.3rem;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      color: #e4c87b;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .modal-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 16px;
+      padding: 12px 16px;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .modal-input:focus {
+      outline: none;
+      border-color: #e4c87b;
+    }
+
+    .modal-btn {
+      background: linear-gradient(105deg, #1a2a4a, #0f1a30);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 40px;
+      padding: 12px;
+      width: 100%;
+      color: #e4c87b;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 20px 32px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #8a7a4a;
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f1a2f;
+      backdrop-filter: blur(12px);
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #e4c87b;
+      border-left: 4px solid #e4c87b;
+      z-index: 1000;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-content {
+        padding: 20px;
+      }
+      .welcome-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .toast {
+        white-space: normal;
+        text-align: center;
+        max-width: 90%;
+      }
+      .dashboard-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .user-area {
+        align-self: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <!-- Cabeçalho -->
+  <div class="dashboard-header">
+    <div class="logo-area">
+      <h1>SGEB Angola</h1>
+      <div class="subtitle">SISTEMA DE GESTÃO DE EMPRÉSTIMOS BANCÁRIOS</div>
+    </div>
+    <div class="user-area">
+      <div class="user-avatar">
+        <i class="fas fa-user-circle"></i>
+      </div>
+      <div class="user-info">
+        <div class="user-name" id="displayNome">Carregando...</div>
+        <div class="user-email" id="displayEmail">carregando@email.com</div>
+      </div>
+      <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Sair</button>
+    </div>
+  </div>
+
+  <!-- Navegação -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-tab="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</button>
+    <button class="nav-tab" data-tab="perfil"><i class="fas fa-user"></i> Meu Perfil</button>
+    <button class="nav-tab" data-tab="emprestimos"><i class="fas fa-hand-holding-usd"></i> Meus Empréstimos</button>
+    <button class="nav-tab" data-tab="solicitar"><i class="fas fa-file-invoice"></i> Solicitar Empréstimo</button>
+    <button class="nav-tab" data-tab="extrato"><i class="fas fa-history"></i> Extrato</button>
+  </div>
+
+  <!-- Conteúdo Dinâmico -->
+  <div class="dashboard-content" id="mainContent">
+    <!-- Conteúdo será carregado via JavaScript -->
+  </div>
+
+  <div class="footer">
+    <i class="fas fa-shield-alt"></i> Ambiente seguro · SGEB Angola © 2026 
+  </div>
+</div>
+
+<div id="toastMessage" class="toast" style="display: none;"></div>
+
+<!-- Modal de Solicitação -->
+<div id="solicitarModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3><i class="fas fa-file-invoice"></i> Solicitar Empréstimo</h3>
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+    </div>
+    <form id="solicitarForm">
+      <input type="text" class="modal-input" id="valorEmprestimo" placeholder="Valor pretendido (Kz)" required>
+      <select class="modal-input" id="prazoEmprestimo" required>
+        <option value="">Selecione o prazo</option>
+        <option value="6">6 meses</option>
+        <option value="12">12 meses</option>
+        <option value="24">24 meses</option>
+        <option value="36">36 meses</option>
+        <option value="48">48 meses</option>
+      </select>
+      <select class="modal-input" id="finalidadeEmprestimo" required>
+        <option value="">Finalidade do empréstimo</option>
+        <option value="habitação">Habitação própria</option>
+        <option value="automóvel">Aquisição de automóvel</option>
+        <option value="educação">Educação</option>
+        <option value="negócio">Investimento / Negócio</option>
+        <option value="outros">Outros</option>
+      </select>
+      <button type="submit" class="modal-btn"><i class="fas fa-paper-plane"></i> Enviar Solicitação</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Dados do cliente logado
+  let clienteAtual = null;
+  let emprestimos = [];
+  let solicitacoes = [];
+
+  // Função para mostrar toast
+  function showMessage(msg, isError = false) {
+    const toast = document.getElementById('toastMessage');
+    toast.textContent = msg;
+    toast.style.display = 'block';
+    toast.style.background = isError ? '#4a1a2ccc' : '#0f1a2fcc';
+    setTimeout(() => {
+      toast.style.display = 'none';
+    }, 2800);
+  }
+
+  // Carregar dados do cliente
+  function loadClientData() {
+    const savedClient = localStorage.getItem('sgeb_cliente_logged') || sessionStorage.getItem('sgeb_cliente_logged');
+    if (savedClient) {
+      clienteAtual = JSON.parse(savedClient);
+      document.getElementById('displayNome').innerHTML = clienteAtual.nome;
+      document.getElementById('displayEmail').innerHTML = clienteAtual.email;
+      
+      // Carregar empréstimos do cliente
+      loadClientLoans();
+      loadClientRequests();
+    } else {
+      window.location.href = 'login-cliente.html';
+    }
+  }
+
+  // Carregar empréstimos do cliente
+  function loadClientLoans() {
+    const savedLoans = localStorage.getItem(`sgeb_loans_${clienteAtual.email}`);
+    if (savedLoans) {
+      emprestimos = JSON.parse(savedLoans);
+    } else {
+      // Dados demo
+      emprestimos = [
+        { id: 'EMP-001', valor: 250000, valorFormatado: '250.000 Kz', taxa: 12, parcelas: 24, parcelasPagas: 24, proximaParcela: null, status: 'aprovado', dataAprovacao: '2024-03-15' },
+        { id: 'EMP-002', valor: 500000, valorFormatado: '500.000 Kz', taxa: 15, parcelas: 36, parcelasPagas: 18, proximaParcela: '10/06/2026', status: 'aprovado', dataAprovacao: '2025-01-10' },
+        { id: 'EMP-003', valor: 150000, valorFormatado: '150.000 Kz', taxa: 10, parcelas: 12, parcelasPagas: 6, proximaParcela: '05/06/2026', status: 'aprovado', dataAprovacao: '2025-09-20' }
+      ];
+      localStorage.setItem(`sgeb_loans_${clienteAtual.email}`, JSON.stringify(emprestimos));
+    }
+  }
+
+  // Carregar solicitações pendentes
+  function loadClientRequests() {
+    const savedRequests = localStorage.getItem(`sgeb_requests_${clienteAtual.email}`);
+    if (savedRequests) {
+      solicitacoes = JSON.parse(savedRequests);
+    } else {
+      solicitacoes = [];
+      localStorage.setItem(`sgeb_requests_${clienteAtual.email}`, JSON.stringify(solicitacoes));
+    }
+  }
+
+  // Salvar solicitações
+  function saveRequests() {
+    localStorage.setItem(`sgeb_requests_${clienteAtual.email}`, JSON.stringify(solicitacoes));
+  }
+
+  // Renderizar Dashboard
+  function renderDashboard() {
+    const totalEmprestimos = emprestimos.length;
+    const valorTotal = emprestimos.reduce((sum, e) => sum + e.valor, 0);
+    const solicitacoesPendentes = solicitacoes.filter(s => s.status === 'pendente').length;
+    
+    const html = `
+      <div class="welcome-card">
+        <div class="welcome-text">
+          <h2><i class="fas fa-hand-wave"></i> Olá, ${clienteAtual.nome}!</h2>
+          <p>Bem-vindo ao seu painel de controlo. Aqui pode gerir todos os seus empréstimos bancários.</p>
+        </div>
+        <div class="welcome-stats">
+          <div class="stat-item">
+            <div class="stat-value">${totalEmprestimos}</div>
+            <div class="stat-label">Empréstimos Activos</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">${valorTotal.toLocaleString()} Kz</div>
+            <div class="stat-label">Total Creditado</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">${solicitacoesPendentes}</div>
+            <div class="stat-label">Solicitações Pendentes</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="cards-grid">
+        <div class="card" onclick="showTab('solicitar')">
+          <div class="card-icon"><i class="fas fa-file-invoice"></i></div>
+          <h3>Solicitar Empréstimo</h3>
+          <p>Peça um novo crédito de forma rápida. Aprovação em até 24 horas úteis.</p>
+          <button class="card-btn">Solicitar agora →</button>
+        </div>
+        <div class="card" onclick="showTab('emprestimos')">
+          <div class="card-icon"><i class="fas fa-hand-holding-usd"></i></div>
+          <h3>Meus Empréstimos</h3>
+          <p>Acompanhe o status e as parcelas dos seus empréstimos activos.</p>
+          <button class="card-btn">Ver detalhes →</button>
+        </div>
+        <div class="card" onclick="showTab('extrato')">
+          <div class="card-icon"><i class="fas fa-history"></i></div>
+          <h3>Extrato de Transacções</h3>
+          <p>Consulte o histórico completo de pagamentos e movimentações.</p>
+          <button class="card-btn">Visualizar extrato →</button>
+        </div>
+      </div>
+      
+      <div class="section-card">
+        <div class="section-title">
+          <h3><i class="fas fa-clock"></i> Últimos Empréstimos</h3>
+          <button class="card-btn" onclick="showTab('emprestimos')">Ver todos</button>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr><th>ID</th><th>Valor</th><th>Parcelas</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+              ${emprestimos.slice(0, 3).map(e => `
+                <tr>
+                  <td>${e.id}</td>
+                  <td>${e.valorFormatado}</td>
+                  <td>${e.parcelasPagas}/${e.parcelas}</td>
+                  <td><span class="status-badge status-aprovado">Aprovado</span></td>
+                  <td><button class="card-btn" onclick="verDetalhesEmprestimo('${e.id}')">Detalhes</button></td>
+                </tr>
+              `).join('')}
+              ${emprestimos.length === 0 ? '<tr><td colspan="5" style="text-align: center;">Nenhum empréstimo encontrado</td></tr>' : ''}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    document.getElementById('mainContent').innerHTML = html;
+  }
+
+  // Renderizar Perfil
+  function renderPerfil() {
+    const html = `
+      <div class="section-card">
+        <div class="section-title">
+          <h3><i class="fas fa-user-circle"></i> Meu Perfil</h3>
+          <button class="card-btn" id="editarPerfilBtn"><i class="fas fa-edit"></i> Editar Perfil</button>
+        </div>
+        <div class="profile-info">
+          <div class="profile-field"><label>Nome Completo</label><div class="value">${clienteAtual.nome}</div></div>
+          <div class="profile-field"><label>E-mail</label><div class="value">${clienteAtual.email}</div></div>
+          <div class="profile-field"><label>NIF / BI</label><div class="value">${clienteAtual.nif || '009876543'}</div></div>
+          <div class="profile-field"><label>Telefone</label><div class="value">${clienteAtual.telefone || '+244 923 456 789'}</div></div>
+          <div class="profile-field"><label>Endereço</label><div class="value">${clienteAtual.endereco || 'Luanda, Angola'}</div></div>
+          <div class="profile-field"><label>Membro desde</label><div class="value">2024</div></div>
+        </div>
+      </div>
+    `;
+    document.getElementById('mainContent').innerHTML = html;
+    document.getElementById('editarPerfilBtn')?.addEventListener('click', () => showMessage('🛠️ Funcionalidade em desenvolvimento'));
+  }
+
+  // Renderizar Meus Empréstimos
+  function renderEmprestimos() {
+    const html = `
+      <div class="section-card">
+        <div class="section-title">
+          <h3><i class="fas fa-hand-holding-usd"></i> Meus Empréstimos</h3>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr><th>ID</th><th>Valor</th><th>Taxa Juro</th><th>Parcelas</th><th>Próxima Parcela</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+              ${emprestimos.map(e => `
+                <tr>
+                  <td>${e.id}</td>
+                  <td>${e.valorFormatado}</td>
+                  <td>${e.taxa}%</td>
+                  <td>${e.parcelasPagas}/${e.parcelas}</td>
+                  <td>${e.proximaParcela || 'Concluído'}</td>
+                  <td><span class="status-badge status-aprovado">Aprovado</span></td>
+                  <td><button class="card-btn" onclick="verDetalhesEmprestimo('${e.id}')">Ver Parcelas</button></td>
+                </tr>
+              `).join('')}
+              ${emprestimos.length === 0 ? '<tr><td colspan="7" style="text-align: center;">Nenhum empréstimo encontrado</td></tr>' : ''}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    document.getElementById('mainContent').innerHTML = html;
+  }
+
+  // Renderizar Solicitar Empréstimo
+  function renderSolicitar() {
+    const html = `
+      <div class="section-card">
+        <div class="section-title">
+          <h3><i class="fas fa-file-invoice"></i> Solicitar Novo Empréstimo</h3>
+        </div>
+        <p style="color: #9aaec9; margin-bottom: 24px;">Preencha o formulário para solicitar um novo crédito. Análise em até 24h.</p>
+        <form id="novoSolicitarForm">
+          <div class="profile-info" style="margin-bottom: 24px;">
+            <div class="profile-field"><label>Valor pretendido (Kz)</label><input type="number" id="solicitarValor" class="modal-input" placeholder="Ex: 500000" required></div>
+            <div class="profile-field"><label>Prazo (meses)</label><select id="solicitarPrazo" class="modal-input"><option value="6">6 meses</option><option value="12">12 meses</option><option value="24">24 meses</option><option value="36">36 meses</option><option value="48">48 meses</option></select></div>
+            <div class="profile-field"><label>Finalidade</label><select id="solicitarFinalidade" class="modal-input"><option value="habitação">Habitação própria</option><option value="automóvel">Automóvel</option><option value="educação">Educação</option><option value="negócio">Negócio</option><option value="outros">Outros</option></select></div>
+          </div>
+          <button type="submit" class="card-btn" style="width: 100%; padding: 12px;"><i class="fas fa-paper-plane"></i> Enviar Solicitação</button>
+        </form>
+      </div>
+      
+      <div class="section-card" style="margin-top: 24px;">
+        <div class="section-title"><h3><i class="fas fa-clock"></i> Solicitações Pendentes</h3></div>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Data</th><th>Valor</th><th>Prazo</th><th>Status</th></tr></thead>
+            <tbody>
+              ${solicitacoes.filter(s => s.status === 'pendente').map(s => `
+                <tr><td>${s.data}</td><td>${s.valor.toLocaleString()} Kz</td><td>${s.prazo} meses</td><td><span class="status-badge status-analise">Em análise</span></td></tr>
+              `).join('')}
+              ${solicitacoes.filter(s => s.status === 'pendente').length === 0 ? '<tr><td colspan="4" style="text-align: center;">Nenhuma solicitação pendente</td></tr>' : ''}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    document.getElementById('mainContent').innerHTML = html;
+    
+    document.getElementById('novoSolicitarForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const valor = parseInt(document.getElementById('solicitarValor').value);
+      const prazo = document.getElementById('solicitarPrazo').value;
+      const finalidade = document.getElementById('solicitarFinalidade').value;
+      
+      if (valor && prazo) {
+        const novaSolicitacao = {
+          id: `SOL-${Date.now()}`,
+          valor: valor,
+          prazo: prazo,
+          finalidade: finalidade,
+          data: new Date().toLocaleDateString('pt-PT'),
+          status: 'pendente'
+        };
+        solicitacoes.push(novaSolicitacao);
+        saveRequests();
+        showMessage(`✅ Solicitação de ${valor.toLocaleString()} Kz enviada com sucesso!`);
+        renderSolicitar();
+      }
+    });
+  }
+
+  // Renderizar Extrato
+  function renderExtrato() {
+    const transacoes = [];
+    emprestimos.forEach(e => {
+      transacoes.push({ data: e.dataAprovacao, descricao: `Aprovação de empréstimo ${e.id}`, valor: e.valor, tipo: 'crédito' });
+    });
+    solicitacoes.forEach(s => {
+      if (s.status === 'aprovado') transacoes.push({ data: s.data, descricao: `Solicitação de empréstimo aprovada`, valor: s.valor, tipo: 'crédito' });
+    });
+    transacoes.sort((a,b) => new Date(b.data) - new Date(a.data));
+    
+    const html = `
+      <div class="section-card">
+        <div class="section-title"><h3><i class="fas fa-history"></i> Histórico de Transacções</h3></div>
+        <div class="table-responsive">
+          <table><thead><tr><th>Data</th><th>Descrição</th><th>Valor</th><th>Tipo</th></tr></thead>
+          <tbody>
+            ${transacoes.map(t => `<tr><td>${t.data}</td><td>${t.descricao}</td><td>${t.valor.toLocaleString()} Kz</td><td><span class="status-badge status-aprovado">${t.tipo === 'crédito' ? 'Crédito' : 'Débito'}</span></td></tr>`).join('')}
+            ${transacoes.length === 0 ? '<tr><td colspan="4" style="text-align: center;">Nenhuma transacção encontrada</td></tr>' : ''}
+          </tbody></table>
+        </div>
+      </div>
+    `;
+    document.getElementById('mainContent').innerHTML = html;
+  }
+
+  // Ver detalhes de um empréstimo
+  window.verDetalhesEmprestimo = (id) => {
+    const emprestimo = emprestimos.find(e => e.id === id);
+    if (emprestimo) {
+      let parcelasHtml = '';
+      for (let i = 1; i <= emprestimo.parcelas; i++) {
+        const valorParcela = Math.round(emprestimo.valor * (1 + emprestimo.taxa/100) / emprestimo.parcelas);
+        const status = i <= emprestimo.parcelasPagas ? 'Pago' : (i === emprestimo.parcelasPagas + 1 ? 'Próxima' : 'Pendente');
+        parcelasHtml += `<tr><td>${i}</td><td>${valorParcela.toLocaleString()} Kz</td><td>${status}</td></tr>`;
+      }
+      showMessage(`📋 Empréstimo ${id}: ${emprestimo.valorFormatado}, ${emprestimo.parcelasPagas}/${emprestimo.parcelas} parcelas pagas`);
+    }
+  };
+
+  // Logout
+  function logout() {
+    localStorage.removeItem('sgeb_cliente_logged');
+    sessionStorage.removeItem('sgeb_cliente_logged');
+    window.location.href = 'login-cliente.html';
+  }
+
+  // Mostrar tab
+  window.showTab = (tab) => {
+    if (tab === 'dashboard') renderDashboard();
+    else if (tab === 'perfil') renderPerfil();
+    else if (tab === 'emprestimos') renderEmprestimos();
+    else if (tab === 'solicitar') renderSolicitar();
+    else if (tab === 'extrato') renderExtrato();
+    
+    document.querySelectorAll('.nav-tab').forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.getAttribute('data-tab') === tab) btn.classList.add('active');
+    });
+  };
+
+  // Event listeners de navegação
+  document.querySelectorAll('.nav-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.getAttribute('data-tab');
+      showTab(tab);
+    });
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', logout);
+
+  // Inicializar
+  loadClientData();
+  renderDashboard();
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saindo - SGEB Angola</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a1a3a 0%, #0d1f44 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logout-container {
+            text-align: center;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 450px;
+            margin: 20px;
+            animation: fadeIn 0.5s ease;
+            border: 1px solid #c9a03d;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .logout-icon { font-size: 80px; color: #c9a03d; margin-bottom: 20px; }
+        h2 { color: #0a1a3a; margin-bottom: 10px; }
+        p { color: #666; margin-bottom: 20px; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #e0e0e0; border-top-color: #c9a03d; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .btn { display: inline-block; padding: 10px 20px; background: #0a1a3a; color: white; border-radius: 10px; text-decoration: none; margin-top: 20px; }
+        
+        @media (max-width: 768px) { .logout-container { padding: 30px 20px; } }
+    </style>
+</head>
+<body>
+
+    <div class="logout-container">
+        <div class="logout-icon"><i class="fas fa-sign-out-alt"></i></div>
+        <h2>Saindo do Sistema</h2>
+        <p>Obrigado por usar o SGEB Angola!</p>
+        <div class="spinner"></div>
+        <p>Redirecionando...</p>
+        <a href="index.html" class="btn">Voltar ao site</a>
+    </div>
+
+    <script>
+        localStorage.removeItem('cliente_logado');
+        setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+    </script>
+</body>
+</html>

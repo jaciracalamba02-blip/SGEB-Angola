@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Empréstimos - SGEB Angola</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a1a3a 0%, #0d1f44 100%);
+            min-height: 100vh;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 30px; }
+        
+        .header {
+            background: linear-gradient(135deg, #0a1a3a 0%, #0d1f44 100%);
+            color: white;
+            padding: 18px 0;
+            border-bottom: 3px solid #c9a03d;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-content { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .logo { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
+        .logo-icon { width: 50px; height: 50px; background: linear-gradient(135deg, #c9a03d, #e6c468); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: #0a1a3a; }
+        .logo-text h1 { font-size: 1.6rem; font-weight: 700; background: linear-gradient(135deg, #fff, #c9a03d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-text p { font-size: 0.75rem; color: #c9a03d; letter-spacing: 2px; }
+        .nav-menu { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 5px; }
+        .nav-link {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 40px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .nav-link:hover { background: rgba(201,160,61,0.2); color: #c9a03d; }
+        .nav-link.active { background: linear-gradient(135deg, #c9a03d, #e6c468); color: #0a1a3a; font-weight: 600; }
+        .btn-sair { background: #c62828; padding: 8px 20px; border-radius: 8px; }
+        
+        .main-content { padding: 40px 0; }
+        .page-header { margin-bottom: 30px; }
+        .page-header h1 { color: white; font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .page-header h1 i { color: #c9a03d; }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(201,160,61,0.2);
+        }
+        .card-header {
+            padding: 22px 28px;
+            background: linear-gradient(135deg, #f8f9fa, #fff);
+            border-bottom: 2px solid #c9a03d;
+        }
+        .card-header h2 { font-size: 1.2rem; font-weight: 700; color: #0a1a3a; display: flex; align-items: center; gap: 10px; }
+        .card-header h2 i { color: #c9a03d; }
+        .card-body { padding: 28px; }
+        
+        .table-responsive { overflow-x: auto; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th { text-align: left; padding: 15px; background: #f8f9fa; color: #0a1a3a; font-weight: 600; border-bottom: 2px solid #c9a03d; }
+        .table td { padding: 15px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .table tr:hover { background: #f5f7fa; }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-pendente { background: #fff3e0; color: #e65100; }
+        .badge-aprovado { background: #e8f5e9; color: #2e7d32; }
+        .badge-ativo { background: #e3f2fd; color: #1565c0; }
+        .badge-quitado { background: #e0e0e0; color: #424242; }
+        .badge-inadimplente { background: #ffebee; color: #c62828; }
+        
+        .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 20px; background: #c9a03d; color: #0a1a3a; text-decoration: none; display: inline-block; }
+        
+        .footer {
+            background: #0a1a3a;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-top: 2px solid #c9a03d;
+            margin-top: 40px;
+        }
+        .footer .gold { color: #c9a03d; }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            .nav-link { padding: 8px 16px; font-size: 12px; }
+            .table th, .table td { padding: 10px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon"><i class="fas fa-landmark"></i></div>
+                    <div class="logo-text">
+                        <h1>SGEB Angola</h1>
+                        <p>MEUS EMPRÉSTIMOS</p>
+                    </div>
+                </div>
+                <nav class="nav-menu">
+                    <a href="dashboard-cliente.html" class="nav-link"><i class="fas fa-home"></i> Início</a>
+                    <a href="solicitar-emprestimo-cliente.html" class="nav-link"><i class="fas fa-hand-holding-usd"></i> Solicitar</a>
+                    <a href="meus-emprestimos.html" class="nav-link active"><i class="fas fa-list"></i> Meus Empréstimos</a>
+                    <a href="perfil-cliente.html" class="nav-link"><i class="fas fa-user"></i> Meu Perfil</a>
+                    <a href="logout.html" class="nav-link btn-sair"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-list"></i> Meus Empréstimos</h1>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-history"></i> Histórico de Solicitações</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr><th>ID</th><th>Data</th><th>Valor</th><th>Prazo</th><th>Parcela</th><th>Status</th><th>Banco</th><th>Ações</th></tr>
+                            </thead>
+                            <tbody id="emprestimosTableBody">
+                                <tr><td colspan="8" style="text-align: center;">Carregando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p><span class="gold">◆</span> Complexo Escolar Fenda da Tundavala | 12ª Classe | 2025/2026 <span class="gold">◆</span></p>
+            <p>Ícolo e Bengo - Angola | SGEB Angola</p>
+        </div>
+    </footer>
+
+    <script>
+        let clienteAtual = null;
+
+        function verificarLogin() {
+            const cliente = JSON.parse(localStorage.getItem('cliente_logado'));
+            if(!cliente || !cliente.logado) {
+                window.location.href = 'login-cliente.html';
+                return false;
+            }
+            clienteAtual = cliente;
+            return true;
+        }
+
+        function carregarEmprestimos() {
+            const emprestimos = JSON.parse(localStorage.getItem('emprestimos') || '[]');
+            const bancos = JSON.parse(localStorage.getItem('bancos') || '[]');
+            const meusEmprestimos = emprestimos.filter(e => e.id_cliente === clienteAtual.id);
+            
+            const tbody = document.getElementById('emprestimosTableBody');
+            
+            if(meusEmprestimos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">Você ainda não tem empréstimos solicitados. <a href="solicitar-emprestimo-cliente.html">Clique aqui para solicitar</a></td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = meusEmprestimos.map(emp => {
+                const banco = bancos.find(b => b.id === emp.id_banco);
+                let statusClass = 'badge-pendente';
+                let statusTexto = 'Em análise';
+                
+                if(emp.status === 'aprovado') { statusClass = 'badge-aprovado'; statusTexto = 'Aprovado'; }
+                else if(emp.status === 'ativo') { statusClass = 'badge-ativo'; statusTexto = 'Ativo'; }
+                else if(emp.status === 'quitado') { statusClass = 'badge-quitado'; statusTexto = 'Quitado'; }
+                else if(emp.status === 'inadimplente') { statusClass = 'badge-inadimplente'; statusTexto = 'Inadimplente'; }
+                
+                return `
+                    <tr>
+                        <td>#${emp.id}</td>
+                        <td>${emp.data_solicitacao || new Date(emp.data).toLocaleDateString('pt-BR')}</td>
+                        <td><strong>KZ ${(emp.valor || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</strong></td>
+                        <td>${emp.prazo_meses || emp.prazo || '-'} meses</td>
+                        <td>KZ ${(emp.valor_parcela || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                        <td><span class="badge ${statusClass}">${statusTexto}</span></td>
+                        <td>${banco?.nome || '-'}</td>
+                        <td><a href="ver-parcelas.html?emp=${emp.id}" class="btn-sm">Ver Parcelas</a></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        if(verificarLogin()) {
+            carregarEmprestimos();
+        }
+    </script>
+</body>
+</html>

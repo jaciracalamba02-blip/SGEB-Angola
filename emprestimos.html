@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Empréstimos - SGEB Angola</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a1a3a; min-height: 100vh; }
+        
+        .header {
+            background: #0a1a3a;
+            border-bottom: 3px solid #c9a03d;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 45px; height: 45px; background: linear-gradient(135deg, #c9a03d, #e6c468); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #0a1a3a; }
+        .logo-text h1 { font-size: 1.3rem; font-weight: 700; color: white; }
+        .logo-text p { font-size: 0.7rem; color: #c9a03d; letter-spacing: 2px; }
+        .nav-menu { display: flex; gap: 8px; flex-wrap: wrap; }
+        .nav-link {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-link:hover { background: rgba(201,160,61,0.2); color: #c9a03d; transform: translateY(-2px); }
+        .nav-link.active { background: linear-gradient(135deg, #c9a03d, #e6c468); color: #0a1a3a; font-weight: 600; }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 5px 20px 5px 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(201,160,61,0.3);
+        }
+        .user-avatar { width: 35px; height: 35px; background: linear-gradient(135deg, #c9a03d, #e6c468); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0a1a3a; }
+        .btn-sair { background: rgba(198,40,40,0.2); padding: 6px 14px; border-radius: 30px; color: #ff6b6b; text-decoration: none; font-size: 13px; transition: all 0.3s; }
+        .btn-sair:hover { background: #c62828; color: white; }
+        
+        .main-content { max-width: 1400px; margin: 30px auto; padding: 0 30px; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 20px; }
+        .page-header h1 { color: white; font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .page-header h1 i { color: #c9a03d; }
+        
+        .filters-bar { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; align-items: flex-end; }
+        .filter-group { flex: 1; min-width: 180px; }
+        .filter-group label { display: block; margin-bottom: 8px; font-weight: 600; color: white; font-size: 12px; }
+        .filter-group input, .filter-group select { width: 100%; padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 14px; background: white; }
+        
+        .tabs { display: flex; gap: 5px; margin-bottom: 25px; flex-wrap: wrap; border-bottom: 2px solid rgba(201,160,61,0.3); padding-bottom: 5px; }
+        .tab { padding: 10px 25px; background: transparent; border: none; cursor: pointer; font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.7); border-radius: 30px; transition: all 0.3s; }
+        .tab:hover { color: #c9a03d; background: rgba(201,160,61,0.1); }
+        .tab.active { background: linear-gradient(135deg, #c9a03d, #e6c468); color: #0a1a3a; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; border-radius: 15px; padding: 20px; text-align: center; border-left: 4px solid #c9a03d; }
+        .stat-card .number { font-size: 28px; font-weight: 700; color: #0a1a3a; }
+        
+        .card { background: white; border-radius: 20px; margin-bottom: 30px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+        .card-header { padding: 20px 25px; border-bottom: 2px solid #c9a03d; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .card-header h2 { font-size: 1.2rem; font-weight: 700; color: #0a1a3a; display: flex; align-items: center; gap: 10px; }
+        .card-header h2 i { color: #c9a03d; }
+        .card-body { padding: 25px; }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary { background: linear-gradient(135deg, #c9a03d, #e6c468); color: #0a1a3a; }
+        .btn-outline { background: transparent; border: 2px solid #c9a03d; color: #c9a03d; }
+        .btn-sm { padding: 6px 16px; font-size: 12px; background: #c9a03d; color: #0a1a3a; border-radius: 20px; }
+        
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px 15px; background: #f8f9fa; color: #0a1a3a; font-weight: 600; border-bottom: 2px solid #c9a03d; }
+        td { padding: 12px 15px; border-bottom: 1px solid #eee; color: #333; }
+        tr:hover td { background: #f5f7fa; }
+        
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .badge-success { background: #e8f5e9; color: #2e7d32; }
+        .badge-warning { background: #fff3e0; color: #e65100; }
+        .badge-info { background: #e3f2fd; color: #1565c0; }
+        
+        .footer {
+            background: #0a1a3a;
+            text-align: center;
+            padding: 30px;
+            border-top: 2px solid #c9a03d;
+            margin-top: 40px;
+        }
+        .footer p { font-size: 13px; color: rgba(255,255,255,0.6); }
+        .gold { color: #c9a03d; }
+        
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; text-align: center; }
+            .nav-menu { justify-content: center; }
+            .main-content { padding: 0 20px; }
+            .page-header { flex-direction: column; text-align: center; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .filters-bar { flex-direction: column; }
+            .tabs { justify-content: center; }
+            .card-header { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo"><div class="logo-icon"><i class="fas fa-landmark"></i></div><div class="logo-text"><h1>SGEB Angola</h1><p>GESTÃO DE EMPRÉSTIMOS BANCÁRIOS</p></div></div>
+            <nav class="nav-menu">
+                <a href="admin-dashboard.html" class="nav-link"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                <a href="bancos.html" class="nav-link"><i class="fas fa-university"></i> Bancos</a>
+                <a href="clientes.html" class="nav-link"><i class="fas fa-users"></i> Clientes</a>
+                <a href="emprestimos.html" class="nav-link active"><i class="fas fa-hand-holding-usd"></i> Empréstimos</a>
+                <a href="pagamentos.html" class="nav-link"><i class="fas fa-credit-card"></i> Pagamentos</a>
+                <a href="relatorios.html" class="nav-link"><i class="fas fa-chart-line"></i> Relatórios</a>
+                <a href="usuarios.html" class="nav-link"><i class="fas fa-users-gear"></i> Usuários</a>
+            </nav>
+            <div class="user-info"><div class="user-avatar"><i class="fas fa-user-shield"></i></div><span>Administrador</span><a href="login.html" class="btn-sair"><i class="fas fa-sign-out-alt"></i> Sair</a></div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1><i class="fas fa-hand-holding-usd"></i> Gestão de Empréstimos</h1>
+            <button class="btn btn-primary" onclick="alert('Adicionar empréstimo')"><i class="fas fa-plus"></i> Novo Empréstimo</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card"><i class="fas fa-chart-line"></i><div class="number">3</div><p>Total</p></div>
+            <div class="stat-card"><i class="fas fa-clock"></i><div class="number">1</div><p>Pendentes</p></div>
+            <div class="stat-card"><i class="fas fa-check-circle"></i><div class="number">2</div><p>Aprovados</p></div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><h2><i class="fas fa-filter"></i> Filtros</h2></div>
+            <div class="card-body">
+                <div class="filters-bar">
+                    <div class="filter-group"><label>Cliente</label><input type="text" id="searchCliente" placeholder="Nome do cliente..." onkeyup="filtrarTabela()"></div>
+                    <div class="filter-group"><label>Status</label><select id="filterStatus" onchange="filtrarTabela()"><option value="todos">Todos</option><option value="pendente">Pendentes</option><option value="aprovado">Aprovados</option><option value="ativo">Ativos</option><option value="quitado">Quitados</option></select></div>
+                    <div class="filter-group"><button class="btn btn-outline" onclick="limparFiltros()"><i class="fas fa-eraser"></i> Limpar</button></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><h2><i class="fas fa-list"></i> Lista de Empréstimos</h2></div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tabelaEmprestimos">
+                        <thead><tr><th>ID</th><th>Cliente</th><th>Banco</th><th>Valor</th><th>Parcela</th><th>Prazo</th><th>Status</th><th>Ações</th></tr></thead>
+                        <tbody>
+                            <tr data-status="aprovado"><td>#101</td><td><strong>João Silva</strong></td><td>BAI</td><td>KZ 150.000</td><td>KZ 14.375</td><td>12 meses</td><td><span class="badge badge-success">Aprovado</span></td><td><button class="btn btn-sm" onclick="alert('Ver')">Ver</button> <button class="btn btn-sm" onclick="alert('Editar')">Editar</button></td></tr>
+                            <tr data-status="ativo"><td>#102</td><td><strong>Maria Santos</strong></td><td>BFA</td><td>KZ 300.000</td><td>KZ 15.850</td><td>24 meses</td><td><span class="badge badge-success">Ativo</span></td><td><button class="btn btn-sm" onclick="alert('Ver')">Ver</button> <button class="btn btn-sm" onclick="alert('Editar')">Editar</button></td></tr>
+                            <tr data-status="pendente"><td>#103</td><td><strong>Carlos Pereira</strong></td><td>BIC</td><td>KZ 80.000</td><td>KZ 14.733</td><td>6 meses</td><td><span class="badge badge-warning">Pendente</span></td><td><button class="btn btn-sm" onclick="alert('Aprovar')">Aprovar</button> <button class="btn btn-sm" onclick="alert('Editar')">Editar</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="header-content"><p><span class="gold">◆</span> Complexo Escolar Fenda da Tundavala | 12ª Classe | 2025/2026 <span class="gold">◆</span></p><p>Ícolo e Bengo - Angola | SGEB Angola</p></div>
+    </footer>
+
+    <script>
+        function filtrarTabela() {
+            const search = document.getElementById('searchCliente').value.toLowerCase();
+            const status = document.getElementById('filterStatus').value;
+            const rows = document.querySelectorAll('#tabelaEmprestimos tbody tr');
+            rows.forEach(row => {
+                const cliente = row.cells[1]?.innerText.toLowerCase() || '';
+                const rowStatus = row.getAttribute('data-status');
+                const matchSearch = !search || cliente.includes(search);
+                const matchStatus = status === 'todos' || rowStatus === status;
+                row.style.display = matchSearch && matchStatus ? '' : 'none';
+            });
+        }
+        function limparFiltros() {
+            document.getElementById('searchCliente').value = '';
+            document.getElementById('filterStatus').value = 'todos';
+            filtrarTabela();
+        }
+    </script>
+</body>
+</html>
